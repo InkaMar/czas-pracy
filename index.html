@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moja Aplikacja</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+</head>
+<body>
+  <h1>Witaj w mojej aplikacji!</h1>
+
+  <!-- To możesz zostawić jeśli chcesz osobny przycisk -->
+  <button onclick="zapiszDane()">Zapisz coś</button>
+
+  <!-- To jest główny przycisk Firebase -->
+  <button id="zapisz">Zapisz do Firebase</button>
+
+  <!-- Tylko jedno ładowanie app.js! -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
