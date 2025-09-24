@@ -57,3 +57,18 @@ if ("serviceWorker" in navigator) {
     .then(() => console.log("Service Worker OK"))
     .catch(console.error);
 }
+
+window.addEventListener("DOMContentLoaded", () => {
+  const btnCos = document.getElementById("zapisz-cos");
+  const btnFirebase = document.getElementById("zapisz");
+
+  if (btnCos) {
+    btnCos.addEventListener("click", () => {
+      alert("Kliknięto 'Zapisz coś'");
+    });
+  }
+
+  if (btnFirebase) {
+    btnFirebase.addEventListener("click", zapiszDane);
+  }
+});
