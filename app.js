@@ -19,7 +19,7 @@ const firebaseConfig = {
   measurementId: "G-GPL7DD4H6Q"
 };
 
-// Inicjalizacja
+// Inicjalizacja Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
@@ -29,35 +29,7 @@ enableIndexedDbPersistence(db).catch((err) => {
   console.warn("Buforowanie niedostępne:", err.code);
 });
 
-// Funkcja zapisu
-async function zapiszDane() {
-  try {
-    await setDoc(doc(db, "raporty", "pierwszy"), {
-      tekst: "Zapisane dane",
-      data: new Date().toISOString()
-    });
-    alert("Dane zapisane!");
-  } catch (e) {
-    console.error("Błąd zapisu:", e);
-  }
-}
-
-// Obsługa kliknięcia
-window.addEventListener("DOMContentLoaded", () => {
-  const przycisk = document.getElementById("zapisz");
-  if (przycisk) {
-    przycisk.addEventListener("click", zapiszDane);
-  }
-});
-
-// Service Worker
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker
-    .register("/service-worker.js")
-    .then(() => console.log("Service Worker OK"))
-    .catch(console.error);
-}
-
+// Główna logika po załadowaniu strony
 window.addEventListener("DOMContentLoaded", () => {
   const btnCos = document.getElementById("zapisz-cos");
   const btnFirebase = document.getElementById("zapisz");
@@ -69,6 +41,25 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   if (btnFirebase) {
-    btnFirebase.addEventListener("click", zapiszDane);
+    btnFirebase.addEventListener("click", async () => {
+      try {
+        await setDoc(doc(db, "raporty", "pierwszy"), {
+          tekst: "Zapisane dane",
+          data: new Date().toISOString()
+        });
+        alert("Dane zapisane!");
+      } catch (e) {
+        console.error("Błąd zapisu do Firebase:", e);
+        alert("Błąd zapisu!");
+      }
+    });
   }
 });
+
+// Rejestracja Service Workera
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register("/service-worker.js")
+    .then(() => console.log("Service Worker OK"))
+    .catch((err) => console.error("Błąd SW:", err));
+}
